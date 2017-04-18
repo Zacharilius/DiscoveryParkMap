@@ -8,26 +8,64 @@ import React, { Component } from 'react';
 import MapView from 'react-native-maps';
 import {
   AppRegistry,
+  Dimensions,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
+const screen = Dimensions.get('window');
+
+const ASPECT_RATIO = screen.width / screen.height;
+const LATITUDE = 47.6573;
+const LONGITUDE = -122.4055;
+const LATITUDE_DELTA = 0.0322;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+const SPACE = 0.01;
+
 export default class DiscoveryParkMap extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      region: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+      polygon: [
+        {
+          latitude: LATITUDE + SPACE,
+          longitude: LONGITUDE + SPACE,
+        },
+        {
+          latitude: LATITUDE - SPACE,
+          longitude: LONGITUDE - SPACE,
+        },
+        {
+          latitude: LATITUDE - SPACE,
+          longitude: LONGITUDE + SPACE,
+        },
+      ],
+    };
+  }
   render() {
-    const { region } = this.props;
-    console.log(region);
+    const { region, polygon } = this.state;
     return (
       <View style={styles.container}>
         <MapView
+          mapType={MapView.MAP_TYPES.HYBRID}
           style={styles.map}
-          region={{
-            latitude: 47.6573,
-            longitude: -122.4055,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
+          region={region}
         >
+          <MapView.Polygon
+            coordinates={polygon}
+            fillColor="rgba(0, 200, 0, 0.5)"
+            strokeColor="rgba(0,0,0,0.5)"
+            strokeWidth={2}
+          />
         </MapView>
       </View>
     );
