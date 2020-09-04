@@ -1,5 +1,5 @@
 # DiscoveryParkMap
-A map that shows the trails and attracts in Discovery Park in Seattle, WA
+A map that shows the trails and attractions in Discovery Park in Seattle, WA
 
 ## Android: How to run:
 
